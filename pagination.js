@@ -15,7 +15,6 @@ class Pagination{
 	createLink(index){
 		let result;
 		
-		
 		switch(this._linkTemplateType){
 			
 			/** No template defined; just use a new <a> tag */
@@ -53,37 +52,33 @@ class Pagination{
 	
 	
 	/**
-	 * The blueprint used to generate new page links.
+	 * Return a blueprint for generating new elements. Internal use only.
 	 *
 	 * Values may be an HTML string, an element reference, or a function that
 	 * returns an element. Functions are called with two parameters: the page
 	 * link's index, and a reference to the owning Pagination object.
 	 *
-	 * @type {Function|HTMLElement|String}
+	 * The returned array holds two values: the template value, and an integer
+	 * representing how it's supposed to be used.
+	 *
+	 * @param {Function|HTMLElement|String} input
+	 * @return {Array}
+	 * @private
 	 */
-	get linkTemplate(){ return this._linkTemplate }
-	set linkTemplate(input){
-		
-		/** No change? Don't bother */
-		if(input === this._linkTemplate) return;
+	parseTemplate(input){
 		
 		/** Short-circuit for falsy values */
-		if(!input){
-			this._linkTemplate = "";
-			this._linkTemplateType = 0;
-			return;
-		}
+		if(!input) return ["", 0];
 		
 		
 		/** DOM element */
-		if(input instanceof Element){
+		else if(input instanceof Element){
 			
 			/** Detach element from the DOM if needed */
 			const parent = input.parentNode;
 			parent && parent.removeChild(input);
 			
-			this._linkTemplate = input;
-			this._linkTemplateType = 1;
+			return [input, 1];
 		}
 
 		
@@ -91,16 +86,33 @@ class Pagination{
 		else if("[object String]" === toString.call(input)){
 			let frag = document.createDocumentFragment();
 			let root = frag.appendChild(New("div"));
+			let result;
 			root.insertAdjacentHTML("afterbegin", input);
-			root.removeChild(this._linkTemplate = root.firstElementChild);
-			this._linkTemplateType = 1;
+			root.removeChild(result = root.firstElementChild);
+			return [result, 1];
 		}
 		
 		/** Alternatively, accept a function that returns an element */
-		else if("function" === typeof input){
-			this._linkTemplate = input;
-			this._linkTemplateType = 2;
-		}
+		else if("function" === typeof input)
+			return [input, 2];
+	}
+	
+	
+	
+	/**
+	 * The blueprint used to generate new page links.
+	 *
+	 * @type {HTMLElement}
+	 */
+	get linkTemplate(){ return this._linkTemplate }
+	set linkTemplate(input){
+		
+		/** No change? Don't bother */
+		if(input === this._linkTemplate) return;
+		
+		let template           = this.parseTemplate(input);
+		this._linkTemplate     = template[0];
+		this._linkTemplateType = template[1];
 	}
 	
 	
