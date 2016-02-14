@@ -12,31 +12,55 @@ class Pagination{
 		this.active         = options.active || 10;
 	}
 	
-	createLink(index){
-		let result;
+	
+	
+	/**
+	 * Create an element from a template variable. Internal use only.
+	 *
+	 * @private
+	 * @param {Function|Node|String} template
+	 * @param {Array} args - Arguments passed to template variable if it's a function
+	 * @return {Node}
+	 */
+	_create(template, args){
 		
-		switch(this._linkTemplateType){
-			
-			/** No template defined; just use a new <a> tag */
-			default:{
-				result = New("a", {textContent: index, href: "#"});
-				break;
-			}
-			
-			case 1:{
-				result    = this._linkTemplate.cloneNode(true);
-				let label = deepest(result);
-				if(!label.childNodes.length)
-					label.appendChild(document.createTextNode(""));
-				label.childNodes[0].data = index;
-				break;
-			}
-			
-			/** Invoke a callback to generate the link element */
-			case 2:{
-				result = this._linkTemplate(index, this);
-				break;
-			}
+		/** Short-circuit falsy values */
+		if(!template) return;
+		
+		
+		let result = template;
+		
+		/** Invoke a callback to generate the link element */
+		if("function" === typeof template)
+			result = template.apply(null, args);
+		
+		/** The callback returned a string, so use it to construct an HTML element */
+		if("[object String]" === toString.call(result))
+			result = this._parseHTML(result);
+		
+		return result;
+	}
+	
+	
+	
+	/**
+	 * Create a link element for an index.
+	 *
+	 * @param {Number} index - Zero-based page index
+	 * @return {HTMLElement}
+	 */
+	createLink(index){
+		let result = (
+			this._create(this._linkTemplate, [index, this]) ||
+			New("a", { textContent: index, href: "#" })
+		).cloneNode(true);
+		
+		/** Set the link's text, unless an author used a callback (we'll assume they took care of that) */
+		if("function" !== typeof this._linkTemplate){
+			let label = deepest(result);
+			if(!label.childNodes.length)
+				label.appendChild(document.createTextNode(""));
+			label.childNodes[0].data = index;
 		}
 		
 		
@@ -61,40 +85,53 @@ class Pagination{
 	 * The returned array holds two values: the template value, and an integer
 	 * representing how it's supposed to be used.
 	 *
+	 * @private
 	 * @param {Function|HTMLElement|String} input
 	 * @return {Array}
-	 * @private
 	 */
-	parseTemplate(input){
+	_parseTemplate(input){
 		
 		/** Short-circuit for falsy values */
-		if(!input) return ["", 0];
+		if(!input) return;
 		
 		
 		/** DOM element */
 		else if(input instanceof Element){
 			
-			/** Detach element from the DOM if needed */
+			/** Detach element from the DOM if it's attached */
 			const parent = input.parentNode;
 			parent && parent.removeChild(input);
 			
-			return [input, 1];
+			return input;
 		}
 
 		
 		/** If it's a string, use it to construct a new HTML element */
-		else if("[object String]" === toString.call(input)){
-			let frag = document.createDocumentFragment();
-			let root = frag.appendChild(New("div"));
-			let result;
-			root.insertAdjacentHTML("afterbegin", input);
-			root.removeChild(result = root.firstElementChild);
-			return [result, 1];
-		}
+		else if("[object String]" === toString.call(input))
+			return this._parseHTML(input);
+		
 		
 		/** Alternatively, accept a function that returns an element */
 		else if("function" === typeof input)
-			return [input, 2];
+			return input;
+	}
+	
+	
+	
+	/**
+	 * Parse an HTML block and return the first element contained in the result.
+	 *
+	 * If the fragment holds no elements, the first text node is returned instead.
+	 *
+	 * @private
+	 * @param {String} input
+	 * @return {Node}
+	 */
+	_parseHTML(input){
+		let frag = document.createDocumentFragment();
+		let root = frag.appendChild(New("div"));
+		root.insertAdjacentHTML("afterbegin", input);
+		return root.removeChild(root.firstElementChild || root.firstChild);
 	}
 	
 	
@@ -110,10 +147,9 @@ class Pagination{
 		/** No change? Don't bother */
 		if(input === this._linkTemplate) return;
 		
-		let template           = this.parseTemplate(input);
-		this._linkTemplate     = template[0];
-		this._linkTemplateType = template[1];
+		this._linkTemplate = this._parseTemplate(input);
 	}
+	
 	
 	
 	get length(){ return this._length || 0 }

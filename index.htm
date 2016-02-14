@@ -17,8 +17,13 @@ a:visited{
 	text-decoration: none;
 	color: inherit;
 }
-a.active{
+.active{
 	opacity: .2;
+}
+ul, li{
+	padding: 0;
+	margin: 0;
+	display: inline;
 }
 </style>
 </head>
@@ -34,7 +39,9 @@ a.active{
 		
 		let el    = document.getElementById("pager");
 		let pager = new Pagination(el, {
-			linkTemplate: '<li><a href="#"></a></li>'
+			linkTemplate: function(index, pagerThing){
+				return '<li><a href="#">PAGE: ' + (index+1) + '</a></li>';
+			}
 		});
 	</script>
 </body>
