@@ -42,20 +42,17 @@ class Pagination{
 				}
 			
 			/** Shrinking the page range */
-			else{
-				
-				/** The currently active index exceeds the new bounds. Cap it. */
-				if(input <= this._active)
-					this.active = input - 1;
-				
-				for(let i = this._length - 1; i >= input; --i){
-					let link = this.pages[i];
-					if(link.parentNode)
-						link.parentNode.removeChild(link);
-				}
+			else for(let i = this._length - 1; i >= input; --i){
+				let link = this.pages[i];
+				if(link.parentNode)
+					link.parentNode.removeChild(link);
 			}
 			
 			this._length = input;
+			
+			/** The currently active index exceeds the new bounds. Cap it. */
+			if(input <= this._active)
+				this.active = input - 1;
 		}
 	}
 	
