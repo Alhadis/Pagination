@@ -25,7 +25,7 @@ a.active{
 
 
 <body>
-	<div id="pager"></div>
+	<ul id="pager"></ul>
 	
 	<script src="helpers.js"></script>
 	<script src="pagination.js"></script>
@@ -33,7 +33,9 @@ a.active{
 		"use strict";
 		
 		let el    = document.getElementById("pager");
-		let pager = new Pagination(el);
+		let pager = new Pagination(el, {
+			linkTemplate: '<li><a href="#"></a></li>'
+		});
 	</script>
 </body>
 </html>
