@@ -3,20 +3,25 @@
 class Pagination{
 	
 	constructor(el, options = {}){
-		this.el     = el;
-		this.pages  = [];
+		this._length = 0;
+		this.pages   = [];
 		
-		this.length = options.length || 20;
-		this.active = options.active || 0;
+		this.el      = el;
+		this.length  = options.length || 20;
+		this.active  = options.active || 10;
 	}
 	
 	createLink(index){
 		let result = New("a", {
-			textContent: index + 1,
+			textContent: index,
 			href: "#"
 		});
 		
-		result.addEventListener()
+		result.addEventListener(pressEvent, e => {
+			this.active = index;
+			e.preventDefault();
+			return false;
+		});
 		
 		return result;
 	}
@@ -28,13 +33,25 @@ class Pagination{
 		if(input < 1) input = 1;
 		if(input !== this._length){
 			
+			/** We're extending the current page range */
+			if(input > this._length)
+				for(let i = this._length; i < input; ++i){
+					let link = this.pages[i];
+					link || this.pages.push(link = this.createLink(i));
+					this.el.appendChild(link);
+				}
 			
-			/** We need more link elements */
-			let numPages = this.pages.length;
-			if(input > numPages){
-				for(let i = numPages; i < input; ++i){
-					let link = this.createLink(i);
-					this.pages.push(this.el.appendChild(link));
+			/** Shrinking the page range */
+			else{
+				
+				/** The currently active index exceeds the new bounds. Cap it. */
+				if(input <= this._active)
+					this.active = input - 1;
+				
+				for(let i = this._length - 1; i >= input; --i){
+					let link = this.pages[i];
+					if(link.parentNode)
+						link.parentNode.removeChild(link);
 				}
 			}
 			
