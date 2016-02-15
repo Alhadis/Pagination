@@ -40,6 +40,7 @@ a:visited{
 		border-radius: .25em;
 		box-shadow: 0 1px 0 #ff0, -1px -1px 2px rgba(0,0,0,.5), 1px 1px 2px rgba(0,0,0,.5);
 		text-shadow: 0 1px 0 #380;
+		min-width: 2em;
 		min-width: 3ch;
 		color: gold;
 		margin: 0 .25em;
@@ -48,6 +49,7 @@ a:visited{
 	}
 
 	#pager > .active{
+		background: #ebc700 repeat-x url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAdBAMAAACZLxtaAAAAJ1BMVEX71QD10ADxzAD40wDsyAD/2ADuygDkwgD/3gDoxQDfvgDdvADTtACQQNskAAAALUlEQVQI12MIYGBgMGAQAEIFhgQGB4YJDAVAuIBhA8MBIK8BKA8BBnBVChCVAOfqB3H6wqtSAAAAAElFTkSuQmCC");
 		background: linear-gradient(gold, #d6b600 50%, gold 51%, #ebc700 100%);
 		box-shadow:
 			0   0   .25em gold inset,
