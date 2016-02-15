@@ -12,6 +12,7 @@ class Pagination{
 		this.el             = el;
 		this.linkTemplate   = options.linkTemplate;
 		this.clipTemplate   = options.clipTemplate || "&hellip;";
+		this.activeClass    = options.activeClass  || "active";
 		this.length         = options.length || 20;
 		this.active         = options.active || 10;
 	}
@@ -188,7 +189,7 @@ class Pagination{
 		/** Run through each node that was added and check their classes list */
 		for(let i = 0, l = children.length; i < l; ++i){
 			let elIndex = +children[i].getAttribute("data-index");
-			children[i].classList[elIndex === this._active ? "add" : "remove"]("active");
+			children[i].classList[elIndex === this._active ? "add" : "remove"](this.activeClass);
 		}
 	}
 	
