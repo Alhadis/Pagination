@@ -18,9 +18,9 @@
 	<script>
 		"use strict";
 		
-		let h1    = document.querySelector("h1");
-		let el    = document.getElementById("pager");
-		let pager = new Pagination(el, {
+		var h1    = document.querySelector("h1");
+		var el    = document.getElementById("pager");
+		var pager = new Pagination(el, {
 			onChange: function(index){
 				h1.textContent = "Page " + (index+1) + " of " + this.length;
 			}
