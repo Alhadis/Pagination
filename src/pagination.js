@@ -4,9 +4,9 @@ class Pagination{
 	
 	constructor(el, options = {}){
 		this._length        = 0;
-		this._startRange    = 3;
-		this._endRange      = 3;
-		this._activeRange   = 1;
+		this.startRange     = 3;
+		this.endRange       = 3;
+		this.activeRange    = 1;
 		this.links          = [];
 		
 		this.el             = el;
@@ -156,23 +156,23 @@ class Pagination{
 			el.removeChild(el.firstChild);
 		
 		
-		const left  = this._active - this._activeRange;
-		const right = this._active + this._activeRange;
-		const end   = this._length - this._endRange;
+		const left  = this._active - this.activeRange;
+		const right = this._active + this.activeRange;
+		const end   = this._length - this.endRange;
 		const children = [];
 		
 		/** Reattach leading range */
-		for(let i = 0; i < this._startRange; ++i)
+		for(let i = 0; i < this.startRange; ++i)
 			children.push(el.appendChild(this.links[i]));
 		
 		
 		/** Should we display a truncation indicator? */
-		if(left > this._startRange)
+		if(left > this.startRange)
 			el.appendChild(this.leftClip);
 		
 		
 		/** Display the active range */
-		for(let i = Math.max(this._startRange, left); i <= Math.min(this._length - 1, right); ++i)
+		for(let i = Math.max(this.startRange, left); i <= Math.min(this._length - 1, right); ++i)
 			children.push(el.appendChild(this.links[i]));
 		
 		
