@@ -59,7 +59,7 @@ class Pagination{
 	createLink(index){
 		let result = (
 			this._create(this._linkTemplate, [index, this]) ||
-			New("a", { textContent: index, href: "#" })
+			New("a", { href: "#" })
 		).cloneNode(true);
 		
 		/** Set the link's text, unless an author used a callback (we'll assume they took care of that) */
@@ -67,7 +67,7 @@ class Pagination{
 			let label = deepest(result);
 			if(!label.childNodes.length)
 				label.appendChild(document.createTextNode(""));
-			label.childNodes[0].data = index;
+			label.childNodes[0].data = index + 1;
 		}
 		
 		
