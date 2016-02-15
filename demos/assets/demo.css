@@ -26,6 +26,11 @@ a:visited{
 	color: inherit;
 }
 
+/** Easier than writing another polyfill for IE8, heh. May as well exploit a bug. */
+h1[textContent]:before{
+	content: attr(textContent);
+}
+
 
 #pager{
 	padding: 0;
