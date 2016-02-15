@@ -230,6 +230,11 @@ class Pagination{
 	
 	
 	
+	/**
+	 * Total number of pages that can be traversed using this instance.
+	 *
+	 * @type {Number}
+	 */
 	get length(){ return this._length || 0 }
 	set length(input){
 		input = +input;
@@ -264,6 +269,15 @@ class Pagination{
 	
 	
 	
+	/**
+	 * Zero-based index of the currently-selected link.
+	 *
+	 * Setting this property will trigger the onChange callback (if specified).
+	 * Should the callback return an explicit value of `false`, the assignment is
+	 * aborted and no change will be made to the instance's .active property.
+	 *
+	 * @type {Number}
+	 */
 	get active(){ return this._active || 0 }
 	set active(input){
 		input = +input;
