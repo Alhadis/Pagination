@@ -6,7 +6,7 @@ class Pagination{
 		this._length        = 0;
 		this._startRange    = 3;
 		this._endRange      = 3;
-		this._activeRange   = 2;
+		this._activeRange   = 1;
 		this.pages          = [];
 		
 		this.el             = el;
@@ -77,6 +77,7 @@ class Pagination{
 			return false;
 		});
 		
+		result.setAttribute("data-index", index);
 		return result;
 	}
 	
@@ -144,62 +145,51 @@ class Pagination{
 	
 	
 	/**
-	 * Show/hide links based on the current pagination state.
+	 * Refresh the display of the pagination links with the current settings.
 	 */
-	updateClip(){
-		const activeLink = this.pages[this._active];
-		if(!activeLink) return;
+	rebuild(){
+		if(!this.pages[this._active]) return;
 		
-		const leftClip  = this.leftClip;
-		const rightClip = this.rightClip;
-		const start     = this._startRange;
-		const end       = this._length - this._endRange;
-		const left      = this._active - this._activeRange;
-		const right     = this._active + this._activeRange;
-		let parent, link;
+		/** Drop each link */
+		const el = this.el;
+		while(el.firstChild)
+			el.removeChild(el.firstChild);
 		
-		for(let i = start; i < end; ++i){
-			link   = this.pages[i];
-			parent = link.parentNode;
-			
-			/** Should be hidden */
-			if((i < left || i > right) && parent){
-				
-				/** Show truncation indicators if we haven't already */
-				if(i < left  && !leftClip.parentNode)  parent.insertBefore(leftClip, link);
-				if(i > right && !rightClip.parentNode) parent.insertBefore(rightClip, link);
-				
-				parent.removeChild(link);
-			}
-			
-			/** Not visible; should it be? */
-			else if(!parent){
-				
-				/** Yes: to the left of the active link */
-				if(i >= left && i < this._active){
-					for(let x = i; x < this._active; ++x){
-						let nextLink = this.pages[x];
-						if(parent = nextLink.parentNode){
-							parent.insertBefore(link, nextLink);
-							break;
-						}
-					}
-				}
-				
-				/** Yes: to the right of the active link */
-				else if(i <= right && i >= this._active){
-					parent = rightClip.parentNode;
-					if(parent) parent.insertBefore(link, rightClip);
-					else       this.pages[this._active].parentNode.insertBefore(link, null);
-				}
-			}
+		
+		const left  = this._active - this._activeRange;
+		const right = this._active + this._activeRange;
+		const end   = this._length - this._endRange;
+		const children = [];
+		
+		/** Reattach leading range */
+		for(let i = 0; i < this._startRange; ++i)
+			children.push(el.appendChild(this.pages[i]));
+		
+		
+		/** Should we display a truncation indicator? */
+		if(left > this._startRange)
+			el.appendChild(this.leftClip);
+		
+		
+		/** Display the active range */
+		for(let i = Math.max(this._startRange, left); i <= Math.min(this._length - 1, right); ++i)
+			children.push(el.appendChild(this.pages[i]));
+		
+		
+		/** Check if we should display a truncation indicator for the right-side too */
+		if(right < end)
+			el.appendChild(this.rightClip);
+		
+		
+		/** Reattach trailing range */
+		for(let i = end; i < this._length; ++i)
+			children.push(el.appendChild(this.pages[i]));
+		
+		/** Run through each node that was added and check their classes list */
+		for(let i = 0, l = children.length; i < l; ++i){
+			let elIndex = +children[i].getAttribute("data-index");
+			children[i].classList[elIndex === this._active ? "add" : "remove"]("active");
 		}
-		
-		
-		/** Remove truncation indicators if they shouldn't be showing */
-		if(left <= start && (parent = leftClip.parentNode)) parent.removeChild(leftClip);
-		if(right >= end && (parent = rightClip.parentNode)) parent.removeChild(rightClip);
-			
 	}
 	
 	
@@ -266,7 +256,7 @@ class Pagination{
 				this.active = input - 1;
 			
 			/** Otherwise, check clipping range */
-			else this.updateClip();
+			else this.rebuild();
 		}
 	}
 	
@@ -282,13 +272,8 @@ class Pagination{
 		else if(input >= l) input = l - 1;
 		
 		if(input !== this._active){
-			let link = this.pages[this._active];
-			link && link.classList.remove("active");
-			
 			this._active = input;
-			
-			(link = this.pages[input]) && link.classList.add("active");
-			this.updateClip();
+			this.rebuild();
 		}
 	}
 }
