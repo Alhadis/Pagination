@@ -4,6 +4,9 @@
 	var touchEnabled = "ontouchstart" in document.documentElement;
 	var pressEvent   = touchEnabled ? "touchend" : "click";
 	var toString     = ({}).toString;
+	
+	/** Workaround for IE8 being DOM-illiterate */
+	var Node = window.Node || window.Element;
 
 
 
@@ -218,8 +221,8 @@
 			if(!input) return;
 			
 			
-			/** DOM element */
-			else if(input instanceof Element){
+			/** DOM element: the "Object(...)" part resolves an issue with IE8 ("Function expected", wtf) */
+			if(Object(input) instanceof Element){
 				
 				/** Detach element from the DOM if it's attached */
 				var parent = input.parentNode;
