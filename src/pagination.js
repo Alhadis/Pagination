@@ -4,9 +4,6 @@ class Pagination{
 	
 	constructor(el, options = {}){
 		this._length        = 0;
-		this.startRange     = 3;
-		this.endRange       = 3;
-		this.activeRange    = 1;
 		this.links          = [];
 		
 		this.el             = el;
@@ -14,8 +11,11 @@ class Pagination{
 		this.linkTemplate   = options.linkTemplate;
 		this.clipTemplate   = options.clipTemplate || "&hellip;";
 		this.activeClass    = options.activeClass  || "active";
-		this.length         = options.length || 20;
-		this.active         = options.active || 10;
+		this.startRange     = +options.startRange  || 1;
+		this.endRange       = +options.endRange    || 1;
+		this.activeRange    = +options.activeRange || 2;
+		this.length         = options.length       || 20;
+		this.active         = options.active       || 10;
 	}
 	
 	
