@@ -10,6 +10,7 @@ class Pagination{
 		this.links          = [];
 		
 		this.el             = el;
+		this.onChange       = options.onChange;
 		this.linkTemplate   = options.linkTemplate;
 		this.clipTemplate   = options.clipTemplate || "&hellip;";
 		this.activeClass    = options.activeClass  || "active";
@@ -273,6 +274,11 @@ class Pagination{
 		else if(input >= l) input = l - 1;
 		
 		if(input !== this._active){
+			
+			/** If there's an onChange callback provided, run it. Bail if it returns false. */
+			if("function" === typeof this.onChange && false === this.onChange(input, this._active))
+				return;
+			
 			this._active = input;
 			this.rebuild();
 		}

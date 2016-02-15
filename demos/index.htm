@@ -10,6 +10,7 @@
 
 
 <body>
+	<h1></h1>
 	<div id="pager"></div>
 	
 	<script src="../src/helpers.js"></script>
@@ -17,9 +18,12 @@
 	<script>
 		"use strict";
 		
+		let h1    = document.querySelector("h1");
 		let el    = document.getElementById("pager");
 		let pager = new Pagination(el, {
-			
+			onChange: function(index){
+				h1.textContent = "Page " + (index+1) + " of " + this.length;
+			}
 		});
 	</script>
 </body>
