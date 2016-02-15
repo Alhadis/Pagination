@@ -1,0 +1,2 @@
+# Prevent demo files being evaluated by GitHub Linguist
+demos/* linguist-documentation
