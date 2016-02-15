@@ -7,7 +7,7 @@ class Pagination{
 		this._startRange    = 3;
 		this._endRange      = 3;
 		this._activeRange   = 1;
-		this.pages          = [];
+		this.links          = [];
 		
 		this.el             = el;
 		this.linkTemplate   = options.linkTemplate;
@@ -148,7 +148,7 @@ class Pagination{
 	 * Refresh the display of the pagination links with the current settings.
 	 */
 	rebuild(){
-		if(!this.pages[this._active]) return;
+		if(!this.links[this._active]) return;
 		
 		/** Drop each link */
 		const el = this.el;
@@ -163,7 +163,7 @@ class Pagination{
 		
 		/** Reattach leading range */
 		for(let i = 0; i < this._startRange; ++i)
-			children.push(el.appendChild(this.pages[i]));
+			children.push(el.appendChild(this.links[i]));
 		
 		
 		/** Should we display a truncation indicator? */
@@ -173,7 +173,7 @@ class Pagination{
 		
 		/** Display the active range */
 		for(let i = Math.max(this._startRange, left); i <= Math.min(this._length - 1, right); ++i)
-			children.push(el.appendChild(this.pages[i]));
+			children.push(el.appendChild(this.links[i]));
 		
 		
 		/** Check if we should display a truncation indicator for the right-side too */
@@ -183,7 +183,7 @@ class Pagination{
 		
 		/** Reattach trailing range */
 		for(let i = end; i < this._length; ++i)
-			children.push(el.appendChild(this.pages[i]));
+			children.push(el.appendChild(this.links[i]));
 		
 		/** Run through each node that was added and check their classes list */
 		for(let i = 0, l = children.length; i < l; ++i){
@@ -237,14 +237,14 @@ class Pagination{
 			/** We're extending the current page range */
 			if(input > this._length)
 				for(let i = this._length; i < input; ++i){
-					let link = this.pages[i];
-					link || this.pages.push(link = this.createLink(i));
+					let link = this.links[i];
+					link || this.links.push(link = this.createLink(i));
 					this.el.appendChild(link);
 				}
 			
 			/** Shrinking the page range */
 			else for(let i = this._length - 1; i >= input; --i){
-				let link = this.pages[i];
+				let link = this.links[i];
 				if(link.parentNode)
 					link.parentNode.removeChild(link);
 			}
