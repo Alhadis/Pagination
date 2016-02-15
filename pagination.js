@@ -4,10 +4,14 @@ class Pagination{
 	
 	constructor(el, options = {}){
 		this._length        = 0;
+		this._startRange    = 3;
+		this._endRange      = 3;
+		this._activeRange   = 2;
 		this.pages          = [];
 		
 		this.el             = el;
 		this.linkTemplate   = options.linkTemplate;
+		this.clipTemplate   = options.clipTemplate || "&hellip;";
 		this.length         = options.length || 20;
 		this.active         = options.active || 10;
 	}
@@ -37,6 +41,9 @@ class Pagination{
 		/** The callback returned a string, so use it to construct an HTML element */
 		if("[object String]" === toString.call(result))
 			result = this._parseHTML(result);
+		
+		if(result instanceof Node)
+			result = result.cloneNode(true);
 		
 		return result;
 	}
@@ -137,6 +144,67 @@ class Pagination{
 	
 	
 	/**
+	 * Show/hide links based on the current pagination state.
+	 */
+	updateClip(){
+		const activeLink = this.pages[this._active];
+		if(!activeLink) return;
+		
+		const leftClip  = this.leftClip;
+		const rightClip = this.rightClip;
+		const start     = this._startRange;
+		const end       = this._length - this._endRange;
+		const left      = this._active - this._activeRange;
+		const right     = this._active + this._activeRange;
+		let parent, link;
+		
+		for(let i = start; i < end; ++i){
+			link   = this.pages[i];
+			parent = link.parentNode;
+			
+			/** Should be hidden */
+			if((i < left || i > right) && parent){
+				
+				/** Show truncation indicators if we haven't already */
+				if(i < left  && !leftClip.parentNode)  parent.insertBefore(leftClip, link);
+				if(i > right && !rightClip.parentNode) parent.insertBefore(rightClip, link);
+				
+				parent.removeChild(link);
+			}
+			
+			/** Not visible; should it be? */
+			else if(!parent){
+				
+				/** Yes: to the left of the active link */
+				if(i >= left && i < this._active){
+					for(let x = i; x < this._active; ++x){
+						let nextLink = this.pages[x];
+						if(parent = nextLink.parentNode){
+							parent.insertBefore(link, nextLink);
+							break;
+						}
+					}
+				}
+				
+				/** Yes: to the right of the active link */
+				else if(i <= right && i >= this._active){
+					parent = rightClip.parentNode;
+					if(parent) parent.insertBefore(link, rightClip);
+					else       this.pages[this._active].parentNode.insertBefore(link, null);
+				}
+			}
+		}
+		
+		
+		/** Remove truncation indicators if they shouldn't be showing */
+		if(left <= start && (parent = leftClip.parentNode)) parent.removeChild(leftClip);
+		if(right >= end && (parent = rightClip.parentNode)) parent.removeChild(rightClip);
+			
+	}
+	
+	
+	
+	/**
 	 * The blueprint used to generate new page links.
 	 *
 	 * @type {HTMLElement}
@@ -148,6 +216,24 @@ class Pagination{
 		if(input === this._linkTemplate) return;
 		
 		this._linkTemplate = this._parseTemplate(input);
+	}
+	
+	
+	
+	/**
+	 * The blueprint for generating truncation indicators.
+	 *
+	 * @type {HTMLElement}
+	 */
+	get clipTemplate(){ return this._clipTemplate }
+	set clipTemplate(input){
+		
+		/** Sanity check */
+		if(input === this._clipTemplate) return;
+		
+		this._clipTemplate = this._parseTemplate(input);
+		this.leftClip      = this._create(this._clipTemplate, "left");
+		this.rightClip     = this._create(this._clipTemplate, "right");
 	}
 	
 	
@@ -178,8 +264,12 @@ class Pagination{
 			/** The currently active index exceeds the new bounds. Cap it. */
 			if(input <= this._active)
 				this.active = input - 1;
+			
+			/** Otherwise, check clipping range */
+			else this.updateClip();
 		}
 	}
+	
 	
 	
 	get active(){ return this._active || 0 }
@@ -197,7 +287,8 @@ class Pagination{
 			
 			this._active = input;
 			
-			(link = this.pages[input]) && link.classList.add("active")
+			(link = this.pages[input]) && link.classList.add("active");
+			this.updateClip();
 		}
 	}
 }

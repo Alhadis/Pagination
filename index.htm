@@ -20,6 +20,9 @@ a:visited{
 .active{
 	opacity: .2;
 }
+.hide{
+	visibility: hidden;
+}
 ul, li{
 	padding: 0;
 	margin: 0;
@@ -30,7 +33,7 @@ ul, li{
 
 
 <body>
-	<ul id="pager"></ul>
+	<div id="pager"></div>
 	
 	<script src="helpers.js"></script>
 	<script src="pagination.js"></script>
@@ -39,9 +42,7 @@ ul, li{
 		
 		let el    = document.getElementById("pager");
 		let pager = new Pagination(el, {
-			linkTemplate: function(index, pagerThing){
-				return '<li><a href="#">PAGE: ' + (index+1) + '</a></li>';
-			}
+			
 		});
 	</script>
 </body>
