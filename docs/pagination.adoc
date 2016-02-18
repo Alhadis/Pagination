@@ -33,7 +33,7 @@ Methods
 === rebuild ( )
 Refresh the display of the pagination links with the current settings.
 
-This method should be called if the +activeRange+, +startRange+ or +endRange+
+This method should be called if the +activeLength+, +startLength+ or +endLength+
 properties are modified after the instance is created. It's already called when
 setting the <<active>> or <<length>> properties.
 
@@ -53,7 +53,7 @@ Should the callback return an explicit value of +false+, the assignment is
 aborted, and no change will be made to the property.
 
 
-=== activeRange
+=== activeLength
 Number of links to display before and after the selected link.
 
 
@@ -61,7 +61,7 @@ Number of links to display before and after the selected link.
 The blueprint for generating truncation indicators
 
 
-=== endRange
+=== endLength
 The number of links to display at the end of the pagination trail.
 
 
@@ -108,5 +108,5 @@ the previous value.
 If the function returns +false+, the assignment is cancelled.
 
 
-=== startRange
+=== startLength
 The number of links to display at the start of the pagination trail.

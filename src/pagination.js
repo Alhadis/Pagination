@@ -20,9 +20,9 @@
 		var rightClip;
 		
 		/** Parse options and their default values */
-		var optStartRange   = options.startRange;
-		var optEndRange     = options.endRange;
-		var optActiveRange  = options.activeRange;
+		var optStartLength  = options.startLength;
+		var optEndLength    = options.endLength;
+		var optActiveLength = options.activeLength;
 		var optLength       = options.length;
 		var optActive       = options.active;
 		
@@ -138,11 +138,11 @@
 		THIS.onChange       = options.onChange;
 		THIS.linkTemplate   = options.linkTemplate;
 		THIS.clipTemplate   = options.clipTemplate || "&hellip;";
-		this.startRange     = undef === optStartRange  ? 1  : (+optStartRange  || 0);
-		this.endRange       = undef === optEndRange    ? 1  : (+optEndRange    || 0);
-		this.activeRange    = undef === optActiveRange ? 2  : (+optActiveRange || 0);
-		this.length         = undef === optLength      ? 20 : (+optLength      || 0);
-		this.active         = undef === optActive      ? 10 : (+optActive      || 0);
+		this.startLength    = undef === optStartLength  ? 1  : (+optStartLength  || 0);
+		this.endLength      = undef === optEndLength    ? 1  : (+optEndLength    || 0);
+		this.activeLength   = undef === optActiveLength ? 2  : (+optActiveLength || 0);
+		this.length         = undef === optLength       ? 20 : (+optLength       || 0);
+		this.active         = undef === optActive       ? 10 : (+optActive       || 0);
 		
 		
 		
@@ -282,10 +282,10 @@
 				el.removeChild(el.firstChild);
 			
 			
-			var start    = THIS.startRange;
-			var left     = _active - THIS.activeRange;
-			var right    = _active + THIS.activeRange;
-			var end      = _length - THIS.endRange;
+			var start    = THIS.startLength;
+			var left     = _active - THIS.activeLength;
+			var right    = _active + THIS.activeLength;
+			var end      = _length - THIS.endLength;
 			var children = [];
 			var i, l;
 			

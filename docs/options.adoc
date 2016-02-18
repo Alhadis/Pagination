@@ -44,7 +44,7 @@ Type::
 CSS class used to mark a link as active/selected.
 
 
-activeRange
+activeLength
 -----------
 Default::
 	+2+
@@ -69,7 +69,7 @@ See <<linkTemplate,+linkTemplate+>> for details on how blueprints are handled.
 
 
 
-endRange
+endLength
 --------
 Default::
 	+1+
@@ -144,7 +144,7 @@ If the function returns +false+, the assignment is cancelled.
 
 
 
-startRange
+startLength
 ----------
 Default::
 	+1+

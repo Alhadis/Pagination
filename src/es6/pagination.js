@@ -8,21 +8,21 @@ class Pagination{
 		this.el             = el;
 		
 		/** Parse options and their default values */
-		let startRange      = options.startRange;
-		let endRange        = options.endRange;
-		let activeRange     = options.activeRange;
+		let startLength     = options.startLength;
+		let endLength       = options.endLength;
+		let activeLength    = options.activeLength;
 		let length          = options.length;
 		let active          = options.active;
 		
 		this.onChange       = options.onChange;
 		this.linkTemplate   = options.linkTemplate;
-		this.clipTemplate   = options.clipTemplate || "&hellip;";
-		this.activeClass    = options.activeClass  || "active";
-		this.startRange     = undef === startRange  ? 1  : (+startRange  || 0);
-		this.endRange       = undef === endRange    ? 1  : (+endRange    || 0);
-		this.activeRange    = undef === activeRange ? 2  : (+activeRange || 0);
-		this.length         = undef === length      ? 20 : (+length      || 0);
-		this.active         = undef === active      ? 10 : (+active      || 0);
+		this.clipTemplate   = options.clipTemplate  || "&hellip;";
+		this.activeClass    = options.activeClass   || "active";
+		this.startLength    = undef === startLength  ? 1  : (+startLength  || 0);
+		this.endLength      = undef === endLength    ? 1  : (+endLength    || 0);
+		this.activeLength   = undef === activeLength ? 2  : (+activeLength || 0);
+		this.length         = undef === length       ? 20 : (+length       || 0);
+		this.active         = undef === active       ? 10 : (+active       || 0);
 	}
 	
 	
@@ -162,23 +162,23 @@ class Pagination{
 			el.removeChild(el.firstChild);
 		
 		
-		const left  = this._active - this.activeRange;
-		const right = this._active + this.activeRange;
-		const end   = this._length - this.endRange;
+		const left  = this._active - this.activeLength;
+		const right = this._active + this.activeLength;
+		const end   = this._length - this.endLength;
 		const children = [];
 		
 		/** Reattach leading range */
-		for(let i = 0; i < this.startRange; ++i)
+		for(let i = 0; i < this.startLength; ++i)
 			children.push(el.appendChild(this.links[i]));
 		
 		
 		/** Should we display a truncation indicator? */
-		if(left > this.startRange)
+		if(left > this.startLength)
 			el.appendChild(this.leftClip);
 		
 		
 		/** Display the active range */
-		for(let i = Math.max(this.startRange, left); i <= Math.min(this._length - 1, right); ++i)
+		for(let i = Math.max(this.startLength, left); i <= Math.min(this._length - 1, right); ++i)
 			children.push(el.appendChild(this.links[i]));
 		
 		
