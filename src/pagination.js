@@ -126,6 +126,7 @@
 		
 		
 		THIS.el             = el;
+		THIS.rebuild        = rebuild;
 		THIS.onChange       = options.onChange;
 		THIS.linkTemplate   = options.linkTemplate;
 		THIS.clipTemplate   = options.clipTemplate || "&hellip;";
