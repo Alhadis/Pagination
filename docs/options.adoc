@@ -22,7 +22,7 @@ new Pagination(el, {
 active
 ------
 Default::
-	+10+
+	+0+
 Type::
 	Number
 
@@ -83,14 +83,14 @@ The number of links to display at the end of the pagination trail.
 length
 ------
 Default::
-	+20+
+	+1+
 Type::
 	Number
 
 Total number of pages that can be traversed using this instance.
 
-While the default value is 20, you'll obviously need to set this to a more
-relevant value yourself.
+While the default value is 1 page, you'll obviously want to set this to a more
+relevant/useful value.
 
 
 

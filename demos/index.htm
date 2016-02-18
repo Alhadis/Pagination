@@ -23,6 +23,8 @@
 		var h1    = document.querySelector("h1");
 		var el    = document.getElementById("pager");
 		var pager = new Pagination(el, {
+			length: 20,
+			active: 9,
 			onChange: function(index){
 				h1.textContent = "Page " + (index+1) + " of " + this.length;
 			}

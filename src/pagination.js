@@ -14,7 +14,7 @@
 	function Pagination(el, options){
 		var THIS            = this;
 		var options         = options || {};
-		var activeClass     = options.activeClass  || "active";
+		var activeClass     = options.activeClass || "active";
 		var links           = [];
 		var leftClip;
 		var rightClip;
@@ -138,11 +138,11 @@
 		THIS.onChange       = options.onChange;
 		THIS.linkTemplate   = options.linkTemplate;
 		THIS.clipTemplate   = options.clipTemplate || "&hellip;";
-		this.startLength    = undef === optStartLength  ? 1  : (+optStartLength  || 0);
-		this.endLength      = undef === optEndLength    ? 1  : (+optEndLength    || 0);
-		this.activeLength   = undef === optActiveLength ? 2  : (+optActiveLength || 0);
-		this.length         = undef === optLength       ? 20 : (+optLength       || 0);
-		this.active         = undef === optActive       ? 10 : (+optActive       || 0);
+		this.startLength    = undef === optStartLength  ? 1 : (+optStartLength  || 0);
+		this.endLength      = undef === optEndLength    ? 1 : (+optEndLength    || 0);
+		this.activeLength   = undef === optActiveLength ? 2 : (+optActiveLength || 0);
+		this.length         = undef === optLength       ? 1 : (+optLength       || 0);
+		this.active         = undef === optActive       ? 0 : (+optActive       || 0);
 		
 		
 		

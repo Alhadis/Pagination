@@ -18,11 +18,11 @@ class Pagination{
 		this.linkTemplate   = options.linkTemplate;
 		this.clipTemplate   = options.clipTemplate  || "&hellip;";
 		this.activeClass    = options.activeClass   || "active";
-		this.startLength    = undef === startLength  ? 1  : (+startLength  || 0);
-		this.endLength      = undef === endLength    ? 1  : (+endLength    || 0);
-		this.activeLength   = undef === activeLength ? 2  : (+activeLength || 0);
-		this.length         = undef === length       ? 20 : (+length       || 0);
-		this.active         = undef === active       ? 10 : (+active       || 0);
+		this.startLength    = undef === startLength  ? 1 : (+startLength  || 0);
+		this.endLength      = undef === endLength    ? 1 : (+endLength    || 0);
+		this.activeLength   = undef === activeLength ? 2 : (+activeLength || 0);
+		this.length         = undef === length       ? 1 : (+length       || 0);
+		this.active         = undef === active       ? 0 : (+active       || 0);
 	}
 	
 	
