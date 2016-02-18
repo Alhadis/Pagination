@@ -1,4 +1,4 @@
-![Pagination: Nothin' fancy](banner.jpg)
+![Pagination: Nothin' fancy](docs/banner.jpg)
 
 A simple, self-contained, modular controller for managing paginated links.
 Perfect complement to any AJAX-powered component that displays results in sets.
@@ -24,7 +24,7 @@ let pager = new Pagination(el, {
 pager.active = 10;
 ```
 
-Full option documentation will be written up in the near future.
+Full option documentation [can be found here](docs/options.adoc).
 
 
 License

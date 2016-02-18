@@ -1,0 +1,154 @@
+Options
+=======
+:toc:
+:toclevels: 3
+:toc-placement: preamble
+//=======
+
+Options that can be passed to the second argument of the +Pagination+ class's
+constructor:
+
+[source,js]
+----
+new Pagination(el, {
+	active: 10,
+	activeClass: "active",
+	…
+});
+----
+
+
+
+active
+------
+Default::
+	+10+
+Type::
+	Number
+
+Zero-based index of the currently-selected link.
+
+Setting this property will trigger the <<onChange>> callback (if specified).
+Should the callback return an explicit value of +false+, the assignment is
+aborted, and no change will be made to the property.
+
+
+
+activeClass
+-----------
+Default::
+	+"active"+
+Type::
+	String
+
+CSS class used to mark a link as active/selected.
+
+
+activeRange
+-----------
+Default::
+	+2+
+Type::
+	Number
+
+Number of links to display before and after the selected link.
+
+
+
+clipTemplate
+------------
+Default::
+	+&hellip;+
+Type::
+	String | Function | Node
+
+The blueprint for generating truncation indicators.
+
+See <<linkTemplate,+linkTemplate+>> for details on how blueprints are handled.
+
+
+
+
+endRange
+--------
+Default::
+	+1+
+Type::
+	Number
+
+The number of links to display at the end of the pagination trail.
+
+
+
+length
+------
+Default::
+	+20+
+Type::
+	Number
+
+Total number of pages that can be traversed using this instance.
+
+While the default value is 20, you'll obviously need to set this to a more
+relevant value yourself.
+
+
+
+linkTemplate
+------------
+Default::
+	+undefined+
+Type::
+	HTMLElement | Function | String
+
+The blueprint used to generate new page links. How it's used depends on type:
+
+**Element:**
+If given a reference to an element, it's detached from the DOM and deep-cloned
+whenever a new link is created. The deepest node inside the element is used for
+displaying the link's index:
+
+[source,html]
+-------------
+<li class="template">
+	<a href="#">
+		»
+		<span> %REPLACED% </span>
+	</a>
+</li>
+-------------
+
+**Function:**
+A callback can be used to return a new HTMLElement.
+Functions are called with two parameters: the page link's index, and a reference
+to the relevant +Pagination+ instance.
+
+**String:**
+Strings are parsed as HTML blocks. As with element references, the deepest node
+inside the parsed block is used for displaying the link's index.
+
+
+
+onChange
+--------
+Default::
+	+undefined+
+Type::
+	Function
+
+Callback triggered whenever the instance's <<active>> property is changed.
+The callback is passed two arguments: the new value about to be set, and
+the previous value.
+
+If the function returns +false+, the assignment is cancelled.
+
+
+
+startRange
+----------
+Default::
+	+1+
+Type::
+	Number
+
+The number of links to display at the start of the pagination trail.

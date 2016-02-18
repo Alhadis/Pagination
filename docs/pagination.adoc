@@ -1,0 +1,112 @@
+Pagination
+==========
+:toc:
+:toclevels: 3
+:toc-placement: preamble
+//==========
+
+A +Pagination+ instance represents a sequence of numbered links. Intermediate
+ranges are hidden from view. The active link is controlled by setting the
+instance's <<active>> property.
+
+
+Constructor
+-----------
+[source,js]
+new Pagination(element, options);
+
+Initialise a new Pagination instance.
+
+element::
+	__(Element)__
+	Reference to a DOM element. Stored in the instance's <<el,.el>> property.
+
+options::
+	__(Object)__
+	Optional dictionary of link:options.adoc[options].
+
+
+
+Methods
+-------
+
+=== rebuild ( )
+Refresh the display of the pagination links with the current settings.
+
+This method should be called if the +activeRange+, +startRange+ or +endRange+
+properties are modified after the instance is created. It's already called when
+setting the <<active>> or <<length>> properties.
+
+
+
+Properties
+----------
+Most of these properties (except for <<el>>) are copied from the
+link:options.adoc[options hash] when the instance is created.
+
+=== active
+Zero-based index of the currently-selected link.
+
+Setting this property will trigger the
+link:options.adoc#onchange[onChange] callback (if specified).
+Should the callback return an explicit value of +false+, the assignment is
+aborted, and no change will be made to the property.
+
+
+=== activeRange
+Number of links to display before and after the selected link.
+
+
+=== clipTemplate
+The blueprint for generating truncation indicators
+
+
+=== endRange
+The number of links to display at the end of the pagination trail.
+
+
+=== el
+A reference to the DOM element that was passed to the constructor.
+
+
+=== length
+Total number of pages that can be traversed using this instance.
+
+
+=== linkTemplate
+The blueprint used to generate new page links. How it's used depends on type:
+
+**Element:**
+If given a reference to an element, it's detached from the DOM and deep-cloned
+whenever a new link is created. The deepest node inside the element is used for
+displaying the link's index:
+[source,html]
+-------------
+<li class="template">
+	<a href="#">
+		»
+		<span> %REPLACED% </span>
+	</a>
+</li>
+-------------
+
+**Function:**
+A callback can be used to return a new HTMLElement.
+Functions are called with two parameters: the page link's index, and a reference
+to the relevant +Pagination+ instance.
+
+**String:**
+Strings are parsed as HTML blocks. As with element references, the deepest node
+inside the parsed block is used for displaying the link's index.
+
+
+=== onChange
+Callback triggered whenever the instance's <<active>> property is changed.
+The callback is passed two arguments: the new value about to be set, and
+the previous value.
+
+If the function returns +false+, the assignment is cancelled.
+
+
+=== startRange
+The number of links to display at the start of the pagination trail.
