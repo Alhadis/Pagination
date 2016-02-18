@@ -92,12 +92,9 @@ class Pagination{
 	 * returns an element. Functions are called with two parameters: the page
 	 * link's index, and a reference to the owning Pagination object.
 	 *
-	 * The returned array holds two values: the template value, and an integer
-	 * representing how it's supposed to be used.
-	 *
 	 * @private
 	 * @param {Function|HTMLElement|String} input
-	 * @return {Array}
+	 * @return {Node}
 	 */
 	_parseTemplate(input){
 		
