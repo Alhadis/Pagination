@@ -1,5 +1,6 @@
 "use strict";
 
+const undef        = undefined;
 const touchEnabled = "ontouchstart" in document.documentElement;
 const pressEvent   = touchEnabled ? "touchend" : "click";
 const toString     = ({}).toString;

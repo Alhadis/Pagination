@@ -1,6 +1,7 @@
 (function(){
 	"use strict";
 
+	var undef;
 	var touchEnabled = "ontouchstart" in document.documentElement;
 	var pressEvent   = touchEnabled ? "touchend" : "click";
 	var toString     = ({}).toString;
@@ -17,6 +18,13 @@
 		var links           = [];
 		var leftClip;
 		var rightClip;
+		
+		/** Parse options and their default values */
+		var optStartRange   = options.startRange;
+		var optEndRange     = options.endRange;
+		var optActiveRange  = options.activeRange;
+		var optLength       = options.length;
+		var optActive       = options.active;
 		
 		/** Internal values */
 		var _length         = 0;
@@ -130,11 +138,11 @@
 		THIS.onChange       = options.onChange;
 		THIS.linkTemplate   = options.linkTemplate;
 		THIS.clipTemplate   = options.clipTemplate || "&hellip;";
-		THIS.startRange     = +options.startRange  || 1;
-		THIS.endRange       = +options.endRange    || 1;
-		THIS.activeRange    = +options.activeRange || 2;
-		THIS.length         = options.length       || 20;
-		THIS.active         = options.active       || 10;
+		this.startRange     = undef === optStartRange  ? 1  : (+optStartRange  || 0);
+		this.endRange       = undef === optEndRange    ? 1  : (+optEndRange    || 0);
+		this.activeRange    = undef === optActiveRange ? 2  : (+optActiveRange || 0);
+		this.length         = undef === optLength      ? 20 : (+optLength      || 0);
+		this.active         = undef === optActive      ? 10 : (+optActive      || 0);
 		
 		
 		

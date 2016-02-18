@@ -5,17 +5,24 @@ class Pagination{
 	constructor(el, options = {}){
 		this._length        = 0;
 		this.links          = [];
-		
 		this.el             = el;
+		
+		/** Parse options and their default values */
+		let startRange      = options.startRange;
+		let endRange        = options.endRange;
+		let activeRange     = options.activeRange;
+		let length          = options.length;
+		let active          = options.active;
+		
 		this.onChange       = options.onChange;
 		this.linkTemplate   = options.linkTemplate;
 		this.clipTemplate   = options.clipTemplate || "&hellip;";
 		this.activeClass    = options.activeClass  || "active";
-		this.startRange     = +options.startRange  || 1;
-		this.endRange       = +options.endRange    || 1;
-		this.activeRange    = +options.activeRange || 2;
-		this.length         = options.length       || 20;
-		this.active         = options.active       || 10;
+		this.startRange     = undef === startRange  ? 1  : (+startRange  || 0);
+		this.endRange       = undef === endRange    ? 1  : (+endRange    || 0);
+		this.activeRange    = undef === activeRange ? 2  : (+activeRange || 0);
+		this.length         = undef === length      ? 20 : (+length      || 0);
+		this.active         = undef === active      ? 10 : (+active      || 0);
 	}
 	
 	
