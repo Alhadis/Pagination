@@ -1,0 +1,13 @@
+{
+	"name": "basic-pagination",
+	"description": "A simple, self-contained, modular controller for managing paginated links.",
+	"keywords": ["pagination", "pager", "pages", "paginator", "numbered links"],
+	"repository": {
+		"url":  "https://github.com/Alhadis/Pagination",
+		"type": "git"
+	},
+	"license": "ISC",
+	"moduleType": "globals",
+	"ignore": ["demos/*"],
+	"main": ["src/accordion.js"]
+}
