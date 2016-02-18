@@ -3,6 +3,11 @@
 A simple, self-contained, modular controller for managing paginated links.
 Perfect complement to any AJAX-powered component that displays results in sets.
 
+```bash
+# Quick install with package managers:
+bower install basic-pagination
+npm install basic-pagination
+```
 
 Usage
 -----
