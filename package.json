@@ -1,6 +1,6 @@
 {
 	"name": "basic-pagination",
-	"version": "v1.1.0",
+	"version": "v1.2.0",
 	"description": "A simple, self-contained, modular controller for managing paginated links.",
 	"keywords": ["pagination", "pager", "pages", "paginator", "numbered links"],
 	"repository": "https://github.com/Alhadis/Pagination",
