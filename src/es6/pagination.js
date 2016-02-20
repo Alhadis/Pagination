@@ -15,7 +15,7 @@ class Pagination{
 		let active          = options.active;
 		
 		this.onChange       = options.onChange;
-		this.linkTemplate   = options.linkTemplate;
+		this.linkTemplate   = options.linkTemplate  || el.firstElementChild;
 		this.clipTemplate   = options.clipTemplate  || "&hellip;";
 		this.activeClass    = options.activeClass   || "active";
 		this.startLength    = undef === startLength  ? 1 : (+startLength  || 0);

@@ -136,7 +136,7 @@
 		THIS.el             = el;
 		THIS.rebuild        = rebuild;
 		THIS.onChange       = options.onChange;
-		THIS.linkTemplate   = options.linkTemplate;
+		THIS.linkTemplate   = options.linkTemplate || el.firstElementChild;
 		THIS.clipTemplate   = options.clipTemplate || "&hellip;";
 		this.startLength    = undef === optStartLength  ? 1 : (+optStartLength  || 0);
 		this.endLength      = undef === optEndLength    ? 1 : (+optEndLength    || 0);
