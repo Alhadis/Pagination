@@ -1,2 +1,3 @@
 # Prevent demo files being evaluated by GitHub Linguist
 demos/* linguist-documentation
+demos/assets/ie.lteIE9.js linguist-vendored
